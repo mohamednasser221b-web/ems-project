@@ -39,7 +39,7 @@ jobs:
          working-directory: ./BackEnd
          run : mvn clean test
        - name : upload test results
-         uses: actions/upload-artifact@v3
+         uses: actions/upload-artifact@v4
          with:
           name: backend-test-results 
           path: ./BackEnd/target/surefire-reports
