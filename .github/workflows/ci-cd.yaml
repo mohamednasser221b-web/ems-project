@@ -12,7 +12,7 @@ env:
 
 jobs:
   secret-scan:
-    runs-on: self-hosted    # or ubuntu-latest
+    runs-on: ubuntu-latest   # or ubuntu-latest
 
     steps:
       - name: Checkout code
