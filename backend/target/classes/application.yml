@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: employee-management-system
+
+  datasource:
+    # Never hardcode credentials. In k8s these come from a Secret mounted as
+    # env vars; locally they come from a .env file that is gitignored.
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/ems}
+    username: ${DB_USERNAME:ems_app}
+    password: ${DB_PASSWORD:}
+
+  jpa:
+    hibernate:
+      # validate, not update/create - schema changes only happen through
+      # Flyway migrations, reviewed in a PR. Never let Hibernate mutate
+      # a production schema on boot.
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+  mail:
+    host: ${SMTP_HOST:}
+    port: ${SMTP_PORT:587}
+    username: ${SMTP_USERNAME:}
+    password: ${SMTP_PASSWORD:}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+jwt:
+  secret: ${JWT_SECRET:} # must be injected via k8s Secret / env - never committed
+  access-token-ttl-minutes: 15
+  refresh-token-ttl-days: 7
+
+app:
+  frontend-origin: ${FRONTEND_ORIGIN:http://localhost:3000}
+
+aws:
+  s3:
+    bucket: ${S3_BUCKET:}
+    region: ${AWS_REGION:us-east-1}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never # never leak internal details (DB host, etc.) publicly
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.company.ems: INFO
+  # Structured JSON logging is configured via logback-spring.xml so
+  # Fluent Bit/Loki can parse fields instead of grepping plain text.
