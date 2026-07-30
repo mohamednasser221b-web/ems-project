@@ -86,7 +86,7 @@ jobs:
           key: ${{ runner.os }}-sonar-${{ hashFiles('**/sonar-project.properties') }}
 
       - name: Build and analyze with SonarQube
-        working-directory: ./BackEnd
+        working-directory: ./backend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
