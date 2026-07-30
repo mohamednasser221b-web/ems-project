@@ -51,14 +51,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: backend-test-results
-          path: ./BackEnd/target/surefire-reports
+          path: backEnd/target/surefire-reports
 
       - name: Upload JaCoCo coverage report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          path: ./BackEnd/target/site/jacoco
+          path: backEnd/target/site/jacoco
 
   unit-tests-frontend:
     name: 🧪 Frontend Tests (Vitest)
