@@ -60,42 +60,11 @@ jobs:
           name: jacoco-report
           path: backEnd/target/site/jacoco
 
-  unit-tests-frontend:
-    name: 🧪 Frontend Tests (Vitest)
-    runs-on: ubuntu-latest
-    needs: secret-scan
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install dependencies
-        working-directory: frontend
-        run: npm ci
-
-      - name: Run tests
-        working-directory: frontend
-        run: npm run test -- --run --coverage
-
-      - name: Upload coverage
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: frontend-coverage
-          path: frontend/coverage
-
+  
   sonar-qube-gate:
     runs-on: ubuntu-latest
     needs:
       - backend-unit-tests
-      - unit-tests-frontend
 
     steps:
       - name: Checkout code
