@@ -91,6 +91,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn clean verify sonar:sonar \
-            -Dsonar.projectKey=Moriarty_BackEnd \
+            -Dsonar.projectKey=mohamednasser221b-web \
+            -Dsonar.organization=mohamednasser221b \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.token=${SONAR_TOKEN}
