@@ -2,7 +2,7 @@
 
 Backend: Spring Boot 3 / Java 21, PostgreSQL, Redis, JWT auth, S3 for files.
 Frontend: React + TypeScript + MUI.
-
+.
 ## Roles
 - `HR_ADMIN` — full CRUD, sees salary, manages departments, reads audit logs
 - `MANAGER` — read/limited-update within own department only, no salary edits
