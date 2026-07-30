@@ -44,7 +44,7 @@ jobs:
           cache: maven
 
       - name: Run tests
-        working-directory: ./BackEnd
+        working-directory: ./backEnd
         run: mvn clean test
 
       - name: Upload test results
