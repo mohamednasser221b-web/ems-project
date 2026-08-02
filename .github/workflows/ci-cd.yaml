@@ -132,7 +132,16 @@ jobs:
            script: |
                      const token = await core.getIDToken("sts.amazonaws.com");
                      core.setSecret(token);
-                     console.log(token);       
+                     console.log(token);   
+    - name: Decode OIDC claims
+      uses: actions/github-script@v7
+      with:
+           script: |
+                     const token = await core.getIDToken("sts.amazonaws.com");
+                     const payload = JSON.parse(
+                     Buffer.from(token.split('.')[1], 'base64').toString()
+                                                                        );
+                     console.log(JSON.stringify(payload, null, 2));                   
     - name: Configure AWS credentials 🔑
       uses: aws-actions/configure-aws-credentials@v4
       with:
