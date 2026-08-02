@@ -129,7 +129,7 @@ jobs:
        - name : list all images
          run : docker image ls      
        - name : Trivy_Scan
-         uses: aquasecurity/trivy-action@0.28.0
+         uses: aquasecurity/trivy-action@0.36.0
          with:
             image-ref: backend:${{ github.sha }}
             format: 'table'
