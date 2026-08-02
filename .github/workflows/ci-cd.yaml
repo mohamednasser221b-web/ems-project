@@ -35,20 +35,20 @@ jobs:
           java-version: "21"
           cache: maven
       - name: Run tests
-        working-directory: ./backEnd
+        working-directory: ./backend
         run: mvn clean test
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
           name: backend-test-results
-          path: ./BackEnd/target/surefire-reports
+          path: backend/target/surefire-reports
       - name: Upload JaCoCo coverage report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-report
-          path: ./backEnd/target/site/jacoco
+          path: backend/target/site/jacoco
 
   unit-tests-frontend:
     name: 🧪 Frontend Tests (Vitest)
@@ -102,7 +102,7 @@ jobs:
           key: ${{ runner.os }}-sonar-${{ hashFiles('**/sonar-project.properties') }}
 
       - name: Build and analyze with SonarQube
-        working-directory: ./backEnd
+        working-directory: ./backend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
@@ -121,17 +121,17 @@ jobs:
          uses: docker/setup-buildx-action@v3
          with:
             version: latest 
-            context: ./backEnd
-            file: ./backEnd/Dockerfile 
+            context: ./backend
+            file: ./backend/Dockerfile 
             load : true #for the Trivy scan to work since the trivy is on the same machine and needs to access the image built by buildx
-            tags: backEnd:${{ github.sha }}
+            tags: backend:${{ github.sha }}
 
        - name : list all images
          run : docker image ls      
        - name : Trivy_Scan
          uses: aquasecurity/trivy-action@0.28.0
          with:
-            image-ref: backEnd:${{ github.sha }}
+            image-ref: backend:${{ github.sha }}
             format: 'table'
             exit-code: '1'
             ignore-unfixed: true
