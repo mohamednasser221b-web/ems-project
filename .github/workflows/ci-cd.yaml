@@ -177,7 +177,7 @@ jobs:
     - name: upload image to ECR
       if : always()
       run: |
-        docker tag backend-${{ github.sha }} ${{ steps.ecr.outputs.registry }}/moriarty:backend-${{ github.sha }}
-        docker tag backend-${{ github.sha }} ${{ steps.ecr.outputs.registry }}/moriarty:backend-latest
+        docker tag backend:${{ github.sha }} ${{ steps.ecr.outputs.registry }}/moriarty:backend-${{ github.sha }}
+        docker tag backend:${{ github.sha }} ${{ steps.ecr.outputs.registry }}/moriarty:backend-latest
         docker push ${{ steps.ecr.outputs.registry }}/moriarty:backend-${{ github.sha }}
         docker push ${{ steps.ecr.outputs.registry }}/moriarty:backend-latest
