@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountPrincipal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employee-management-system</a> &gt; <a href="index.source.html" class="el_package">com.company.ems.security</a> &gt; <span class="el_source">AccountPrincipal.java</span></div><h1>AccountPrincipal.java</h1><pre class="source lang-java linenums">package com.company.ems.security;
+
+import com.company.ems.entity.Account;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.List;
+import java.util.UUID;
+
+public class AccountPrincipal implements UserDetails {
+
+    private final Account account;
+
+<span class="nc" id="L15">    public AccountPrincipal(Account account) {</span>
+<span class="nc" id="L16">        this.account = account;</span>
+<span class="nc" id="L17">    }</span>
+
+    public UUID getAccountId() {
+<span class="nc" id="L20">        return account.getId();</span>
+    }
+
+    public Account getAccount() {
+<span class="nc" id="L24">        return account;</span>
+    }
+
+    @Override
+    public List&lt;GrantedAuthority&gt; getAuthorities() {
+        // Spring Security convention: prefix with ROLE_ for hasRole() checks.
+<span class="nc" id="L30">        return List.of(new SimpleGrantedAuthority(&quot;ROLE_&quot; + account.getRole().name()));</span>
+    }
+
+    @Override
+    public String getPassword() {
+<span class="nc" id="L35">        return account.getPasswordHash();</span>
+    }
+
+    @Override
+    public String getUsername() {
+<span class="nc" id="L40">        return account.getEmail();</span>
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+<span class="nc" id="L45">        return true;</span>
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+<span class="nc" id="L50">        return account.isActive();</span>
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+<span class="nc" id="L55">        return true;</span>
+    }
+
+    @Override
+    public boolean isEnabled() {
+<span class="nc" id="L60">        return account.isActive();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

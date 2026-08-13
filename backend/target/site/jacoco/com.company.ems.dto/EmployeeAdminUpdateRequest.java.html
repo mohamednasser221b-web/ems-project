@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmployeeAdminUpdateRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employee-management-system</a> &gt; <a href="index.source.html" class="el_package">com.company.ems.dto</a> &gt; <span class="el_source">EmployeeAdminUpdateRequest.java</span></div><h1>EmployeeAdminUpdateRequest.java</h1><pre class="source lang-java linenums">package com.company.ems.dto;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+/**
+ * Update DTO used ONLY by HR_ADMIN-authorized endpoints.
+ * Deliberately the only DTO in the codebase that exposes salary/department/manager
+ * as writable fields — this is a structural boundary, not just a runtime check.
+ * A field that doesn't exist here cannot be set by a non-admin, no matter what
+ * the client sends in the request body.
+ */
+<span class="nc" id="L13">public record EmployeeAdminUpdateRequest(</span>
+        String fullName,
+        UUID departmentId,
+        UUID managerId,
+        BigDecimal salary
+) {
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

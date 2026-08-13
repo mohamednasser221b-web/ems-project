@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmployeeController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employee-management-system</a> &gt; <a href="index.source.html" class="el_package">com.company.ems.controller</a> &gt; <span class="el_source">EmployeeController.java</span></div><h1>EmployeeController.java</h1><pre class="source lang-java linenums">package com.company.ems.controller;
+
+import com.company.ems.dto.EmployeeAdminUpdateRequest;
+import com.company.ems.dto.EmployeeResponse;
+import com.company.ems.dto.EmployeeSelfUpdateRequest;
+import com.company.ems.dto.PageResponse;
+import com.company.ems.security.AccountPrincipal;
+import com.company.ems.service.EmployeeService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
+
+@RestController
+@RequestMapping(&quot;/api/v1/employees&quot;)
+@RequiredArgsConstructor
+public class EmployeeController {
+
+    private final EmployeeService employeeService;
+
+    @GetMapping
+    public PageResponse&lt;EmployeeResponse&gt; search(@AuthenticationPrincipal AccountPrincipal principal,
+                                                  @RequestParam(required = false) UUID department,
+                                                  @RequestParam(required = false) String search,
+                                                  Pageable pageable) {
+<span class="nc" id="L31">        return employeeService.search(principal, department, search, pageable);</span>
+    }
+
+    // /me MUST be declared before /{id} - otherwise Spring would try to parse
+    // &quot;me&quot; as a UUID path variable and this route would never match.
+    @GetMapping(&quot;/me&quot;)
+    public EmployeeResponse getSelf(@AuthenticationPrincipal AccountPrincipal principal) {
+<span class="nc" id="L38">        return employeeService.getSelf(principal);</span>
+    }
+
+    @PatchMapping(&quot;/me&quot;)
+    public EmployeeResponse updateSelf(@AuthenticationPrincipal AccountPrincipal principal,
+                                       @Valid @RequestBody EmployeeSelfUpdateRequest request,
+                                       HttpServletRequest httpRequest) {
+<span class="nc" id="L45">        return employeeService.updateSelf(principal, request, httpRequest.getRemoteAddr());</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public EmployeeResponse getById(@AuthenticationPrincipal AccountPrincipal principal,
+                                    @PathVariable UUID id) {
+<span class="nc" id="L51">        return employeeService.getById(principal, id);</span>
+    }
+
+    @PatchMapping(&quot;/{id}&quot;)
+    @PreAuthorize(&quot;hasRole('HR_ADMIN')&quot;)
+    public EmployeeResponse updateAsAdmin(@AuthenticationPrincipal AccountPrincipal principal,
+                                          @PathVariable UUID id,
+                                          @Valid @RequestBody EmployeeAdminUpdateRequest request,
+                                          HttpServletRequest httpRequest) {
+<span class="nc" id="L60">        return employeeService.updateAsAdmin(principal, id, request, httpRequest.getRemoteAddr());</span>
+    }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    @PreAuthorize(&quot;hasRole('HR_ADMIN')&quot;)
+    public void terminate(@AuthenticationPrincipal AccountPrincipal principal,
+                          @PathVariable UUID id,
+                          HttpServletRequest httpRequest) {
+<span class="nc" id="L68">        employeeService.terminate(principal, id, httpRequest.getRemoteAddr());</span>
+<span class="nc" id="L69">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

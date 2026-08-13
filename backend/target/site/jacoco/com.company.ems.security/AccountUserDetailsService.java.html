@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountUserDetailsService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employee-management-system</a> &gt; <a href="index.source.html" class="el_package">com.company.ems.security</a> &gt; <span class="el_source">AccountUserDetailsService.java</span></div><h1>AccountUserDetailsService.java</h1><pre class="source lang-java linenums">package com.company.ems.security;
+
+import com.company.ems.repository.AccountRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class AccountUserDetailsService implements UserDetailsService {
+
+    private final AccountRepository accountRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) {
+<span class="nc" id="L18">        return accountRepository.findByEmail(email)</span>
+<span class="nc" id="L19">                .map(AccountPrincipal::new)</span>
+                // Same generic message whether the email exists or not -
+                // don't let this endpoint become a way to enumerate valid accounts.
+<span class="nc" id="L22">                .orElseThrow(() -&gt; new UsernameNotFoundException(&quot;Invalid credentials&quot;));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

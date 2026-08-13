@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DepartmentController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employee-management-system</a> &gt; <a href="index.source.html" class="el_package">com.company.ems.controller</a> &gt; <span class="el_source">DepartmentController.java</span></div><h1>DepartmentController.java</h1><pre class="source lang-java linenums">package com.company.ems.controller;
+
+import com.company.ems.entity.Department;
+import com.company.ems.repository.DepartmentRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping(&quot;/api/v1/departments&quot;)
+@RequiredArgsConstructor
+public class DepartmentController {
+
+    private final DepartmentRepository departmentRepository;
+
+    @GetMapping
+    public List&lt;Department&gt; list() {
+<span class="nc" id="L21">        return departmentRepository.findAll();</span>
+    }
+
+    @PostMapping
+    @PreAuthorize(&quot;hasRole('HR_ADMIN')&quot;)
+    public Department create(@RequestBody Department department) {
+        // Note: accepting the raw entity here is a shortcut for this stub;
+        // a hardened version uses a dedicated CreateDepartmentRequest DTO so
+        // clients can never set id/createdAt directly. Flagged for the code
+        // review pass.
+<span class="nc" id="L31">        return departmentRepository.save(Department.builder().name(department.getName()).build());</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public Department get(@PathVariable UUID id) {
+<span class="nc" id="L36">        return departmentRepository.findById(id)</span>
+<span class="nc" id="L37">                .orElseThrow(() -&gt; new com.company.ems.exception.ApiExceptions.NotFoundException(&quot;Department not found&quot;));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

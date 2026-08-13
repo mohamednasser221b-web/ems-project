@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmployeeResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employee-management-system</a> &gt; <a href="index.source.html" class="el_package">com.company.ems.dto</a> &gt; <span class="el_source">EmployeeResponse.java</span></div><h1>EmployeeResponse.java</h1><pre class="source lang-java linenums">package com.company.ems.dto;
+
+import com.company.ems.entity.Employee;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.UUID;
+
+<span class="nc" id="L9">public record EmployeeResponse(</span>
+        UUID id,
+        String fullName,
+        String email,
+        String departmentName,
+        UUID managerId,
+        String managerName,
+        BigDecimal salary,
+        LocalDate hireDate
+) {
+    public static EmployeeResponse from(Employee e, boolean includeSalary) {
+<span class="nc" id="L20">        return new EmployeeResponse(</span>
+<span class="nc" id="L21">                e.getId(),</span>
+<span class="nc" id="L22">                e.getFullName(),</span>
+<span class="nc" id="L23">                e.getAccount().getEmail(),</span>
+<span class="nc" id="L24">                e.getDepartment().getName(),</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">                e.getManager() != null ? e.getManager().getId() : null,</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">                e.getManager() != null ? e.getManager().getFullName() : null,</span>
+                // Salary is stripped out entirely for roles that shouldn't see it -
+                // this happens in the service layer before this DTO is built.
+<span class="nc bnc" id="L29" title="All 2 branches missed.">                includeSalary ? e.getSalary() : null,</span>
+<span class="nc" id="L30">                e.getHireDate()</span>
+        );
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
