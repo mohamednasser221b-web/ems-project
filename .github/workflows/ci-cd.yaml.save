@@ -211,7 +211,7 @@ jobs:
         docker tag backend:${{ github.sha }} ${{ steps.ecr.outputs.registry }}/moriarty:backend-${{ github.sha }}
         docker tag backend:${{ github.sha }} ${{ steps.ecr.outputs.registry }}/moriarty:backend-latest
         docker push ${{ steps.ecr.outputs.registry }}/moriarty:backend-${{ github.sha }}
-        docker push ${{ steps.ecr.outputs.registry }}/moriarty-backend:latest
+        docker push ${{ steps.ecr.outputs.registry }}/moriarty
   update-gitops:
     runs-on: ubuntu-latest
     needs: Docker_stage
@@ -237,32 +237,6 @@ jobs:
           git add overlays/dev/kustomization.yaml
           git diff --cached --quiet || git commit -m "deploy(dev): backend-${{ github.sha }}"
           git push origin main
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
